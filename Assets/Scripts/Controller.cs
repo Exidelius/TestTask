@@ -7,7 +7,6 @@ public class Controller : MonoBehaviour
 {
     ObjectProperties op;
 
-
     private void Start()
     {
         op = GetComponent<ObjectProperties>();
@@ -15,7 +14,7 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Moving"))
+        if (Input.GetButtonDown("Moving"))
         {
             op.SetNewTargetPosition(GetInputPosition());
         }

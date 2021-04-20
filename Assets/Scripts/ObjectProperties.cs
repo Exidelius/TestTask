@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class ObjectProperties : MonoBehaviour
 {
-    public Vector3 positionToMove;
-    public List<Vector3> positionsToMove;
+    public float speed;
+
+    private Vector3 positionToMove;
+    private List<Vector3> positionsToMove;
 
     private void Start()
     {
-        
+        positionToMove = Vector3.zero;
+        positionsToMove = new List<Vector3>();
     }
 
     private void Update()
@@ -38,17 +42,12 @@ public class ObjectProperties : MonoBehaviour
 
     private void MoveToCurrentTargetPosition()
     {
-        transform.position = Vector3.MoveTowards(transform.position, positionToMove, Time.deltaTime * 5f);
+        transform.position = Vector3.MoveTowards(transform.position, positionToMove, Time.deltaTime * speed);
     }
 
     private void RemoveCurrentTargetPosition()
     {
         positionsToMove.Remove(positionToMove);
         positionToMove = Vector3.zero;
-    }
-
-    private void DrawLine()
-    {
-
     }
 }

@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 170302243}
   m_Layer: 0
   m_Name: White
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -357,7 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639ee850bea635848b233585f8bef673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionToMove: {x: 0, y: 0, z: 0}
+  speed: 5
 --- !u!54 &724661643
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -372,7 +372,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!135 &724661644
 SphereCollider:
@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 1451679747}
   m_Layer: 0
   m_Name: Red
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 1677582924}
   m_Layer: 0
   m_Name: Green
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -737,7 +737,7 @@ GameObject:
   - component: {fileID: 1796383515}
   m_Layer: 0
   m_Name: Blue
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

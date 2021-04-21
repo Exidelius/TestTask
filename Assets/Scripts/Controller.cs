@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(ObjectProperties))]
 public class Controller : MonoBehaviour
 {
-    ObjectProperties op;
+    private ObjectProperties op;
 
     private void Start()
     {

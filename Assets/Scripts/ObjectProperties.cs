@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,11 +7,12 @@ public class ObjectProperties : MonoBehaviour
 {
     public float speed;
 
-    public GameObject pointObject;
+    public Mesh pointMesh;
 
     private Material playerMaterial;
 
     private Vector3 targetPosition;
+    private Vector3 basePosition;
 
     private Dictionary<Color, Color> currentAndTargetColors;
 
@@ -19,13 +20,15 @@ public class ObjectProperties : MonoBehaviour
 
     private void Start()
     {
-        targetPosition = Vector3.zero;
+        basePosition = new Vector3(1, 1, 1) * float.MinValue;
+
+        targetPosition = basePosition;
 
         targetPoints = new List<Point>();
 
         playerMaterial = GetComponent<MeshRenderer>().materials[0];
 
-        // Создание словаря для перехода между цветами
+        // РЎРѕР·РґР°РЅРёРµ СЃР»РѕРІР°СЂСЏ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ С†РІРµС‚Р° РёРіСЂРѕРєР°
         currentAndTargetColors = new Dictionary<Color, Color>();
         currentAndTargetColors.Add(Color.white, Color.red);
         currentAndTargetColors.Add(Color.blue, Color.red);
@@ -35,7 +38,7 @@ public class ObjectProperties : MonoBehaviour
 
     private void Update()
     {
-        if (targetPosition != Vector3.zero)
+        if (targetPosition != basePosition)
         {
             if (!transform.position.Equals(targetPosition))
             {
@@ -56,7 +59,7 @@ public class ObjectProperties : MonoBehaviour
 
     public void SetNewTargetPosition(Vector3 position)
     {
-        Point newPoint = new Point(position);
+        Point newPoint = new Point(position, pointMesh);
 
         if (targetPoints.Count != 0)
         {
@@ -73,7 +76,7 @@ public class ObjectProperties : MonoBehaviour
 
     private void RemoveCurrentTargetPosition()
     {
-        targetPosition = Vector3.zero;
+        targetPosition = basePosition;
 
         targetPoints[0].RemovePoint();
         targetPoints.Remove(targetPoints[0]);
@@ -100,6 +103,7 @@ public class ObjectProperties : MonoBehaviour
     private void ChangeObjectColor()
     {
         Color groundColor = GetGroundColor();
+
         if (currentAndTargetColors[playerMaterial.color].Equals(groundColor))
         {
             playerMaterial.color = groundColor;

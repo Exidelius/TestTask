@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +7,9 @@ public class Point : MonoBehaviour
     public Vector3 previousPointPosition;
     public Vector3 pointPosition;
 
+    private Mesh pointMesh;
     private GameObject point;
+    private Vector3 pointScale;
 
     public Color lineColor;
     private Material renderMaterial;
@@ -15,19 +17,16 @@ public class Point : MonoBehaviour
     private LineRenderer lr;
 
 
-    public Point(Vector3 position)
+    public Point(Vector3 position, Mesh mesh)
     {
-        point = new GameObject("Point");
-
         pointPosition = position;
-
-        //point = new GameObject("Point");
-        point.transform.position = pointPosition;
 
         renderMaterial = new Material(Shader.Find("Standard"));
 
         lineColor = Color.cyan;
         renderMaterial.color = lineColor;
+
+        pointMesh = mesh;
 
         CreatePoint();
     }
@@ -53,12 +52,18 @@ public class Point : MonoBehaviour
 
     private void CreatePoint()
     {
-        //Debug.
+        point = new GameObject("Point");
+        point.transform.position = pointPosition;
+        pointScale = new Vector3(0.5f, 0.0001f, 0.5f);
+
+        point.AddComponent<MeshFilter>().mesh = pointMesh;
+        point.AddComponent<MeshRenderer>().material = renderMaterial;
+
+        point.transform.localScale = pointScale;
     }
 
     public void RemovePoint()
     {
-        // TODO ƒŒ¡¿¬»“‹ Œ¡⁄≈ “ “Œ◊ »
         Destroy(point);
     }
 

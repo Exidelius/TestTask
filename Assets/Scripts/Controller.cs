@@ -11,7 +11,7 @@ public class Controller : MonoBehaviour
     {
         op = GetComponent<ObjectProperties>();
     }
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetButtonDown("Moving"))

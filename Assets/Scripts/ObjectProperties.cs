@@ -7,22 +7,20 @@ public class ObjectProperties : MonoBehaviour
 {
     public float speed;
 
+    public GameObject pointObject;
+
     private Material playerMaterial;
 
     private Vector3 targetPosition;
-    //private List<Vector3> positionsToMove;
 
     private Dictionary<Color, Color> currentAndTargetColors;
 
-    // TODO
     private List<Point> targetPoints;
 
     private void Start()
     {
         targetPosition = Vector3.zero;
-        //positionsToMove = new List<Vector3>();
 
-        // TODO
         targetPoints = new List<Point>();
 
         playerMaterial = GetComponent<MeshRenderer>().materials[0];
@@ -106,30 +104,5 @@ public class ObjectProperties : MonoBehaviour
         {
             playerMaterial.color = groundColor;
         }
-
-        //Color groundColor = GetGroundColor();
-
-        //if (groundColor.Equals(Color.red))
-        //{
-        //    if (playerMaterial.color.Equals(Color.white) || playerMaterial.color.Equals(Color.blue))
-        //    {
-        //        playerMaterial.color = groundColor;
-        //    }
-        //}
-        //else if (groundColor.Equals(Color.green))
-        //{
-        //    if (playerMaterial.color.Equals(Color.red))
-        //    {
-        //        playerMaterial.color = groundColor;
-        //    }
-        //}
-        //else if (groundColor.Equals(Color.blue))
-        //{
-        //    if (playerMaterial.color.Equals(Color.green))
-        //    {
-        //        playerMaterial.color = groundColor;
-        //    }
-        //}
-
     }
 }

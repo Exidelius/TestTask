@@ -4,90 +4,53 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    private Vector3 previousPointPosition;
-    private Vector3 pointPosition;
+    private Vector3 _previousPointPosition;
+    private Vector3 _pointPosition;
 
-    private Mesh pointMesh;
-    private GameObject point;
-    private Vector3 pointScale;
+    private Material _pointMaterial;
 
-    private Color lineColor;
-    private Material renderMaterial;
-
-    private LineRenderer lr;
-
-
-    public Point(Vector3 position, Mesh mesh)
-    {
-        pointPosition = position;
-
-        renderMaterial = new Material(Shader.Find("Standard"));
-
-        lineColor = Color.cyan;
-        renderMaterial.color = lineColor;
-
-        pointMesh = mesh;
-
-        CreatePoint();
-    }
+    private LineRenderer _lr;
 
     public void InitPoint(Vector3 position)
     {
-        pointPosition = position;
+        _pointPosition = position;
 
-        renderMaterial = new Material(Shader.Find("Standard"));
+        _pointMaterial = GetComponent<MeshRenderer>().materials[0];
 
-        lineColor = Color.cyan;
-        renderMaterial.color = lineColor;
-
-        //pointMesh = mesh;
-
-        CreatePoint();
+        _pointMaterial.color = _pointMaterial.color;
     }
 
     public void SetPreviousPoint(Vector3 previousPosition)
     {
-        previousPointPosition = previousPosition;
+        _previousPointPosition = previousPosition;
 
         DrawLine();
     }
 
     private void DrawLine()
     {
-        lr = point.AddComponent<LineRenderer>();
+        _lr = gameObject.AddComponent<LineRenderer>();
 
-        lr.materials.SetValue(renderMaterial, 0);
-        lr.startWidth = 0.1f;
-        lr.endWidth = 0.1f;
+        _lr.materials.SetValue(_pointMaterial, 0);
+        _lr.startWidth = 0.1f;
+        _lr.endWidth = 0.1f;
 
-        lr.SetPosition(0, previousPointPosition);
-        lr.SetPosition(1, pointPosition);
-    }
-
-    private void CreatePoint()
-    {
-        point = new GameObject("Point");
-        point.transform.position = pointPosition;
-        pointScale = new Vector3(0.5f, 0.0001f, 0.5f);
-
-        point.AddComponent<MeshFilter>().mesh = pointMesh;
-        point.AddComponent<MeshRenderer>().material = renderMaterial;
-
-        point.transform.localScale = pointScale;
+        _lr.SetPosition(0, _previousPointPosition);
+        _lr.SetPosition(1, _pointPosition);
     }
 
     public void RemovePoint()
     {
-        Destroy(point);
+        Destroy(gameObject);
     }
 
-    public void RemovePreviousPoint()
+    public void RemoveLine()
     {
-        Destroy(lr);
+        Destroy(_lr);
     }
 
     public Vector3 GetPosition()
     {
-        return pointPosition;
+        return _pointPosition;
     }
 }

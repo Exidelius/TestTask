@@ -5,33 +5,33 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ObjectProperties : MonoBehaviour
 {
-    public Mesh pointMesh;
+    public GameObject pointObject;
     
     public float speed;
 
-    private Material playerMaterial;
+    private Material _playerMaterial;
 
-    private Vector3 targetPosition;
-    private Vector3 basePosition;
+    private Vector3 _targetPosition;
+    private Vector3 _basePosition;
 
-    private List<Point> targetPoints;
+    private List<Point> _targetPoints;
 
     private void Start()
     {
-        basePosition = new Vector3(1, 1, 1) * float.MinValue;
+        _basePosition = new Vector3(1, 1, 1) * float.MinValue;
 
-        targetPosition = basePosition;
+        _targetPosition = _basePosition;
 
-        targetPoints = new List<Point>();
+        _targetPoints = new List<Point>();
 
-        playerMaterial = GetComponent<MeshRenderer>().materials[0];
+        _playerMaterial = GetComponent<MeshRenderer>().materials[0];
     }
 
     private void Update()
     {
-        if (targetPosition != basePosition)
+        if (_targetPosition != _basePosition)
         {
-            if (!transform.position.Equals(targetPosition))
+            if (!transform.position.Equals(_targetPosition))
             {
                 MoveToCurrentTargetPosition();
             }
@@ -40,40 +40,45 @@ public class ObjectProperties : MonoBehaviour
                 RemoveCurrentTargetPosition();
             }
         }
-        else if (targetPoints.Count != 0)
+        else if (_targetPoints.Count != 0)
         {
-            targetPosition = targetPoints[0].GetPosition();
+            _targetPosition = _targetPoints[0].GetPosition();
         }
     }
 
     public void SetNewTargetPosition(Vector3 position)
     {
-        Point newPoint = new Point(position, pointMesh);
+        Point newPoint = Instantiate(pointObject, position, Quaternion.identity).GetComponent<Point>();
+        newPoint.InitPoint(position);
 
-        if (targetPoints.Count != 0)
+        if (_targetPoints.Count != 0)
         {
-            newPoint.SetPreviousPoint(targetPoints[targetPoints.Count - 1].GetPosition());
+            newPoint.SetPreviousPoint(_targetPoints[_targetPoints.Count - 1].GetPosition());
         }
 
-        targetPoints.Add(newPoint);
+        _targetPoints.Add(newPoint);
     }
 
     private void MoveToCurrentTargetPosition()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
+        transform.position = Vector3.MoveTowards(transform.position, _targetPosition, Time.deltaTime * speed);
     }
 
     private void RemoveCurrentTargetPosition()
     {
-        targetPosition = basePosition;
+        _targetPosition = _basePosition;
 
-        targetPoints[0].RemovePoint();
-        targetPoints.Remove(targetPoints[0]);
+        Point pointToDelete = _targetPoints[0];
 
-        if (targetPoints.Count != 0)
-            targetPoints[0].RemovePreviousPoint();
+        _targetPoints.Remove(pointToDelete);
+        pointToDelete.RemovePoint();
+
+        if (_targetPoints.Count != 0)
+            _targetPoints[0].RemoveLine();
     }
 
+
+    // Переделать под StateMachine
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag.Equals("Ground"))
@@ -82,27 +87,27 @@ public class ObjectProperties : MonoBehaviour
 
             if (groundColor.Equals(Color.red))
             {
-                if (playerMaterial.color.Equals(Color.white))
+                if (_playerMaterial.color.Equals(Color.white))
                 {
-                    playerMaterial.color = groundColor;
+                    _playerMaterial.color = groundColor;
                 }
-                else if (playerMaterial.color.Equals(Color.blue))
+                else if (_playerMaterial.color.Equals(Color.blue))
                 {
-                    playerMaterial.color = groundColor;
+                    _playerMaterial.color = groundColor;
                 }
             }
             else if (groundColor.Equals(Color.green))
             {
-                if (playerMaterial.color.Equals(Color.red))
+                if (_playerMaterial.color.Equals(Color.red))
                 {
-                    playerMaterial.color = groundColor;
+                    _playerMaterial.color = groundColor;
                 }
             }
             else if (groundColor.Equals(Color.blue))
             {
-                if (playerMaterial.color.Equals(Color.green))
+                if (_playerMaterial.color.Equals(Color.green))
                 {
-                    playerMaterial.color = groundColor;
+                    _playerMaterial.color = groundColor;
                 }
             }
         }

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ObjectProperties : MonoBehaviour
+public class ObjectProperties : StateMachine
 {
+    private Color _groundColor;
+
     public GameObject pointObject;
-    
+
     public float speed;
 
     private Material _playerMaterial;
@@ -18,6 +20,8 @@ public class ObjectProperties : MonoBehaviour
 
     private void Start()
     {
+        _groundColor = Color.white;
+
         _basePosition = new Vector3(1, 1, 1) * float.MinValue;
 
         _targetPosition = _basePosition;
@@ -25,6 +29,8 @@ public class ObjectProperties : MonoBehaviour
         _targetPoints = new List<Point>();
 
         _playerMaterial = GetComponent<MeshRenderer>().materials[0];
+
+        SetState(new White(this));
     }
 
     private void Update()
@@ -77,39 +83,28 @@ public class ObjectProperties : MonoBehaviour
             _targetPoints[0].RemoveLine();
     }
 
+    public void SetColor(Color color)
+    {
+        _playerMaterial.color = color;
+    }
 
-    // Переделать под StateMachine
+    public Color GetGroundColor()
+    {
+        return _groundColor;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag.Equals("Ground"))
         {
-            Color groundColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].color;
+            _groundColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].color;
 
-            if (groundColor.Equals(Color.red))
-            {
-                if (_playerMaterial.color.Equals(Color.white))
-                {
-                    _playerMaterial.color = groundColor;
-                }
-                else if (_playerMaterial.color.Equals(Color.blue))
-                {
-                    _playerMaterial.color = groundColor;
-                }
-            }
-            else if (groundColor.Equals(Color.green))
-            {
-                if (_playerMaterial.color.Equals(Color.red))
-                {
-                    _playerMaterial.color = groundColor;
-                }
-            }
-            else if (groundColor.Equals(Color.blue))
-            {
-                if (_playerMaterial.color.Equals(Color.green))
-                {
-                    _playerMaterial.color = groundColor;
-                }
-            }
+            ChangeColor();
         }
+    }
+
+    public void ChangeColor()
+    {
+        StartCoroutine(State.ChangeColor());
     }
 }

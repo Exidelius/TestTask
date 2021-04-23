@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    public Vector3 previousPointPosition;
-    public Vector3 pointPosition;
+    private Vector3 previousPointPosition;
+    private Vector3 pointPosition;
 
     private Mesh pointMesh;
     private GameObject point;
     private Vector3 pointScale;
 
-    public Color lineColor;
+    private Color lineColor;
     private Material renderMaterial;
 
     private LineRenderer lr;
@@ -27,6 +27,20 @@ public class Point : MonoBehaviour
         renderMaterial.color = lineColor;
 
         pointMesh = mesh;
+
+        CreatePoint();
+    }
+
+    public void InitPoint(Vector3 position)
+    {
+        pointPosition = position;
+
+        renderMaterial = new Material(Shader.Find("Standard"));
+
+        lineColor = Color.cyan;
+        renderMaterial.color = lineColor;
+
+        //pointMesh = mesh;
 
         CreatePoint();
     }
@@ -70,5 +84,10 @@ public class Point : MonoBehaviour
     public void RemovePreviousPoint()
     {
         Destroy(lr);
+    }
+
+    public Vector3 GetPosition()
+    {
+        return pointPosition;
     }
 }

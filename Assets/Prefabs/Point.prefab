@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7306174348981288815}
   - component: {fileID: 4038045064878260698}
   - component: {fileID: -7230524634811429171}
+  - component: {fileID: 7925892264182608066}
   m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
@@ -180,3 +181,15 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &7925892264182608066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354474916840245080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db04d35b0bb350646a37a920f4e8440d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

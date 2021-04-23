@@ -42,7 +42,7 @@ public class ObjectProperties : MonoBehaviour
         }
         else if (targetPoints.Count != 0)
         {
-            targetPosition = targetPoints[0].pointPosition;
+            targetPosition = targetPoints[0].GetPosition();
         }
     }
 
@@ -52,7 +52,7 @@ public class ObjectProperties : MonoBehaviour
 
         if (targetPoints.Count != 0)
         {
-            newPoint.SetPreviousPoint(targetPoints[targetPoints.Count - 1].pointPosition);
+            newPoint.SetPreviousPoint(targetPoints[targetPoints.Count - 1].GetPosition());
         }
 
         targetPoints.Add(newPoint);

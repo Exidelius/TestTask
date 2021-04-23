@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour
         op = GetComponent<ObjectProperties>();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetButtonDown("Moving"))
         {

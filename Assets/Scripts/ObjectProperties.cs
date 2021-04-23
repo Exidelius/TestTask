@@ -5,16 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ObjectProperties : MonoBehaviour
 {
-    public float speed;
-
     public Mesh pointMesh;
+    
+    public float speed;
 
     private Material playerMaterial;
 
     private Vector3 targetPosition;
     private Vector3 basePosition;
-
-    private Dictionary<Color, Color> currentAndTargetColors;
 
     private List<Point> targetPoints;
 
@@ -27,13 +25,6 @@ public class ObjectProperties : MonoBehaviour
         targetPoints = new List<Point>();
 
         playerMaterial = GetComponent<MeshRenderer>().materials[0];
-
-        // Создание словаря для изменения цвета игрока
-        currentAndTargetColors = new Dictionary<Color, Color>();
-        currentAndTargetColors.Add(Color.white, Color.red);
-        currentAndTargetColors.Add(Color.blue, Color.red);
-        currentAndTargetColors.Add(Color.red, Color.green);
-        currentAndTargetColors.Add(Color.green, Color.blue);
     }
 
     private void Update()
@@ -53,8 +44,6 @@ public class ObjectProperties : MonoBehaviour
         {
             targetPosition = targetPoints[0].pointPosition;
         }
-
-        ChangeObjectColor();
     }
 
     public void SetNewTargetPosition(Vector3 position)
@@ -83,30 +72,39 @@ public class ObjectProperties : MonoBehaviour
 
         if (targetPoints.Count != 0)
             targetPoints[0].RemovePreviousPoint();
-
     }
 
-    private Color GetGroundColor()
+    private void OnTriggerEnter(Collider other)
     {
-        RaycastHit[] rc = Physics.RaycastAll(gameObject.transform.position, Vector3.down);
-        for (int i = 0; i < rc.Length; i++)
+        if (other.gameObject.tag.Equals("Ground"))
         {
-            if (rc[i].collider.tag == "Ground")
+            Color groundColor = other.gameObject.GetComponent<MeshRenderer>().materials[0].color;
+
+            if (groundColor.Equals(Color.red))
             {
-                return rc[i].collider.gameObject.GetComponent<MeshRenderer>().materials[0].color;
+                if (playerMaterial.color.Equals(Color.white))
+                {
+                    playerMaterial.color = groundColor;
+                }
+                else if (playerMaterial.color.Equals(Color.blue))
+                {
+                    playerMaterial.color = groundColor;
+                }
             }
-        }
-
-        return Color.clear;
-    }
-
-    private void ChangeObjectColor()
-    {
-        Color groundColor = GetGroundColor();
-
-        if (currentAndTargetColors[playerMaterial.color].Equals(groundColor))
-        {
-            playerMaterial.color = groundColor;
+            else if (groundColor.Equals(Color.green))
+            {
+                if (playerMaterial.color.Equals(Color.red))
+                {
+                    playerMaterial.color = groundColor;
+                }
+            }
+            else if (groundColor.Equals(Color.blue))
+            {
+                if (playerMaterial.color.Equals(Color.green))
+                {
+                    playerMaterial.color = groundColor;
+                }
+            }
         }
     }
 }

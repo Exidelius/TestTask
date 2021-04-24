@@ -20,12 +20,6 @@ public class Red : State
         yield return new WaitForEndOfFrame();
 
         if (SphereController.GetGroundColor().Equals(Color.green))
-        {
             SphereController.SetState(new Green(SphereController));
-        }
-        else
-        {
-            SphereController.SetState(this);
-        }
     }
 }

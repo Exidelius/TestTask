@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ObjectProperties : StateMachine
+public class SphereController : StateMachine
 {
-    private Color _groundColor;
-
     public GameObject pointObject;
 
     public float speed;
+
+    private float _cameraHeight;
+
+    private Color _groundColor;
 
     private Material _playerMaterial;
 
@@ -20,14 +22,13 @@ public class ObjectProperties : StateMachine
 
     private void Start()
     {
-        _groundColor = Color.white;
+        _cameraHeight = GameObject.FindGameObjectWithTag("MainCamera").transform.position.y;
 
         _basePosition = new Vector3(1, 1, 1) * float.MinValue;
-
         _targetPosition = _basePosition;
-
         _targetPoints = new List<Point>();
 
+        _groundColor = Color.white;
         _playerMaterial = GetComponent<MeshRenderer>().materials[0];
 
         SetState(new White(this));
@@ -35,6 +36,11 @@ public class ObjectProperties : StateMachine
 
     private void Update()
     {
+        if (Input.GetButtonDown("Moving"))
+        {
+            SetNewTargetPosition(GetInputPosition());
+        }
+
         if (_targetPosition != _basePosition)
         {
             if (!transform.position.Equals(_targetPosition))
@@ -50,6 +56,14 @@ public class ObjectProperties : StateMachine
         {
             _targetPosition = _targetPoints[0].GetPosition();
         }
+    }
+
+        private Vector3 GetInputPosition()
+    {
+        Vector3 position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _cameraHeight));
+        position.y = transform.position.y;
+
+        return position;
     }
 
     public void SetNewTargetPosition(Vector3 position)

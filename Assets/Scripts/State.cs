@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class State
 {
-    protected ObjectProperties ObjectProperties;
+    protected SphereController SphereController;
 
-    public State(ObjectProperties objectProperties)
+    public State(SphereController sphereController)
     {
-        ObjectProperties = objectProperties;
+        SphereController = sphereController;
     }
 
     public virtual IEnumerator Start()

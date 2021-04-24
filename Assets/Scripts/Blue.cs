@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Blue : State
 {
-    public Blue(ObjectProperties objectProperties) : base(objectProperties)
+    public Blue(SphereController sphereController) : base(sphereController)
     {
 
     }
 
     public override IEnumerator Start()
     {
-        ObjectProperties.SetColor(Color.blue);
+        SphereController.SetColor(Color.blue);
         yield break;
     }
 
@@ -20,13 +20,13 @@ public class Blue : State
     {
         yield return new WaitForEndOfFrame();
 
-        if (ObjectProperties.GetGroundColor().Equals(Color.red))
+        if (SphereController.GetGroundColor().Equals(Color.red))
         {
-            ObjectProperties.SetState(new Red(ObjectProperties));
+            SphereController.SetState(new Red(SphereController));
         }
         else
         {
-            ObjectProperties.SetState(this);
+            SphereController.SetState(this);
         }
     }
 }
